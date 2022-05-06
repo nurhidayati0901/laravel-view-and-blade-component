@@ -10,7 +10,6 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            {{-- <th>Cover Buku</th> --}}
                             <th>Judul</th>
                             <th>Penulis</th>
                             <th>ISBN</th>
@@ -24,11 +23,6 @@
                     <tbody>
                         <tr>
                             <td>{{ $i }}</td>
-                            {{-- <td>
-                                @if($book->image)
-                                    <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="rounded mx-auto d-block top" style="width: 5cm">
-                                @endif
-                            </td> --}}
                             <td>{{ $book["judul"] }}</td>
                             <td>{{ $book["penulis"] }}</td>
                             <td>{{ $book["isbn"] }}</td>

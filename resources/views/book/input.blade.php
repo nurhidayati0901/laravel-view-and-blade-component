@@ -11,15 +11,6 @@
             @endif
             <form action="/store" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <div class="form-group row mt-3">
-                    <label for="image" class="col-sm-2 col-form-label">Pilih Gambar</label>
-                    <div class="col-sm-3">
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                        @error('image')
-                        <div id="imageFeedback" class="invalid-feedback">Hanya dapat mengunggah berkas dengan format jpeg,jpg,png ukuran maksimum 2 MB</div>
-                        @enderror
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-8">
