@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,55 +15,74 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// rendering view using the global view helper (normal)
+// and passing data using associative array
+Route::get('/penulis', function () {
+    $authors = [
+        [
+            "name" => "Joanne Rowling",
+            "penname" => "J. K. Rowling or Robert Galbraith",
+            "born" => "Gloucestershire, 31 July 1965", 
+        ],
+        [
+            "name" => "Pramoedya Ananta Toer",
+            "penname" => "Pramoedya Ananta Toer",
+            "born" => "Blora, 6 February 1925",
+        ]
+    ];
 
-Route::get('/about', function () {
-    return view('about', [
+    return view('penulis', [
         "title" => "Penulis",
-        "name1" => "Helsa Nesta Dhaifullah",
-        "github1" => "helsanesta",
-        "name2" => "Nur Hidayati",
-        "github2" => "nurhidayati0901",
+        "authors" => $authors
     ]);
 });
 
-Route::get('/list', function () {
+// rendering view using the View facade
+// and passing data using 'with' function
+Route::get('/', function () {
     $daftar_buku = [
         [
-            "judul" => "Harry Potter",
-            "slug" => "harry-potter",
-            "penulis" => "J.K.Rowling",
-            "deskripsi" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde ad voluptates ab molestias et tempora quisquam eum nostrum magnam porro!"
+            "judul" => "Harry Potter and the Philosopher's Stone",
+            "slug" => "harry-potter-pilosopher-stone",
+            "penulis" => "J.K. Rowling",
+            "penerbit" => "Bloomsbury",
+            "tahun_terbit" => "1997",
+            "isbn" => "0-7475-3269-9",
         ],
         [
             "judul" => "Bumi Manusia",
             "slug" => "bumi-manusia",
             "penulis" => "Pramoedya Ananta Toer",
-            "deskripsi" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde ad voluptates ab molestias et tempora quisquam eum nostrum magnam porro!"
+            "penerbit" => "Hasta Mitra",
+            "tahun_terbit" => "1980",
+            "isbn" => "9799731232",    
         ],
     ];
 
-    return view('daftarbuku', [
-        "title" => "Dafar Buku",
-        "buku" => $daftar_buku
-    ]);
+    return View::make('daftarbuku')
+                ->with('title', 'Daftar Buku')
+                ->with('books', $daftar_buku);
 });
 
+// nested view directory 
+// passing data using 'compact' function
 Route::get('lists/{slug}', function($slug) {
     $daftar_buku = [
         [
-            "judul" => "Harry Potter",
-            "slug" => "harry-potter",
-            "penulis" => "J.K.Rowling",
-            "deskripsi" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde ad voluptates ab molestias et tempora quisquam eum nostrum magnam porro!"
+            "judul" => "Harry Potter and the Philosopher's Stone",
+            "slug" => "harry-potter-pilosopher-stone",
+            "penulis" => "J.K. Rowling",
+            "penerbit" => "Bloomsbury",
+            "tahun_terbit" => "1997",
+            "isbn" => "0-7475-3269-9",
         ],
         [
             "judul" => "Bumi Manusia",
             "slug" => "bumi-manusia",
             "penulis" => "Pramoedya Ananta Toer",
-            "deskripsi" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde ad voluptates ab molestias et tempora quisquam eum nostrum magnam porro!"
+            "penerbit" => "Hasta Mitra",
+            "tahun_terbit" => "1980",
+            "isbn" => "9799731232",
         ],
     ];
 
@@ -71,8 +92,17 @@ Route::get('lists/{slug}', function($slug) {
             $store_book = $b;
         }
     }
-    return view('detail', [
-        "title" => "Detail Buku",
-        "buku" => $store_book
-    ]);
+
+    $title = "Detail Buku";
+    $book = $store_book;
+    
+    return view('book.detail', compact('title', 'book'));
 });
+
+// nested view directory
+// and passing data using 'with' function
+Route::get('/form', function() {
+    return view('book.input')->with('title', 'Form Input');
+});
+
+Route::post('/store', [BookController::class, 'create']);

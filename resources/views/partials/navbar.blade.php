@@ -1,25 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">BOOK SITE</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link {{ ($title === "Home") ? 'Active' : '' }}" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ ($title === "About") ? 'Active' : '' }}" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ ($title === "Posts") ? 'Active' : '' }}" href="/list">List Buku</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <inpaut class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
+  <div class="container">
+    <a class="navbar-brand" href="/">BOOK SITE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link {{ ($title === "input") ? 'Active' : '' }}" href="/form">Form Input </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ ($title === "list") ? 'Active' : '' }}" href="/">List Buku</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ ($title === "penulis") ? 'Active' : '' }}" href="/penulis">Penulis</a>
+        </li>
+      </ul>
     </div>
-  </nav>  
+  </div>
+</nav>  
