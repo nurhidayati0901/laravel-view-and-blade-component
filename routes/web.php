@@ -106,3 +106,9 @@ Route::get('/form', function() {
 });
 
 Route::post('/store', [BookController::class, 'create']);
+
+Route::get('/editor', function() {
+    $title = 'Editor';
+    $editors = array('Helsa Nesta', 'Nur Hidayati');
+    return view('editor', compact('title', 'editors'));
+});

@@ -1,10 +1,8 @@
-@extends('layout')
-
-@section('container')
+<x-content_detail type="error" :title="$title" :book="$book">
     <div class="justify-content-center mt-4 card">
         <div class="card-body">
             <div class="h3">Detail Buku</div>
-                
+            <br>
                 <div class="form-group row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-8">
@@ -40,4 +38,4 @@
                 </div>
         </div>
     </div>
-@endsection
+</x-content_detail>

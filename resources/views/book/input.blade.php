@@ -4,6 +4,7 @@
     <div class="justify-content-center mt-4 card">
         <div class="card-body">
             <div class="h3">Form Input Buku</div>
+            <br>
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}

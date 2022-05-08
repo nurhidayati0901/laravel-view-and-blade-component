@@ -15,6 +15,9 @@
         <li class="nav-item">
           <a class="nav-link {{ ($title === "penulis") ? 'Active' : '' }}" href="/penulis">Penulis</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {{ ($title === "editor") ? 'Active' : '' }}" href="/editor">Editor</a>
+        </li>
       </ul>
     </div>
   </div>
