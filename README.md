@@ -30,11 +30,91 @@ Selain menggunakan helper `view`, kita juga dapat menggunakan `View` facade
 Isi dari view yang kita tampilkan bisa saja berubah sesuai dengan data yang diinginkan. Kita dapat memberikan data ke dalam view yang dapat ditampilkan dengan bantuan templating engine Blade.
 Untuk mengirimkan data ke view, dapat digunakan beberapa cara :
 - Menggunakan Associative Array:
+```
+Route::get('/penulis', function () {
+    $authors = [
+        [
+            "name" => "Joanne Rowling",
+            "penname" => "J. K. Rowling or Robert Galbraith",
+            "born" => "Gloucestershire, 31 July 1965", 
+        ],
+        [
+            "name" => "Pramoedya Ananta Toer",
+            "penname" => "Pramoedya Ananta Toer",
+            "born" => "Blora, 6 February 1925",
+        ]
+    ];
 
+    return view('penulis', [
+        "title" => "Penulis",
+        "authors" => $authors
+    ]);
+});
+```
 - Menggunakan fungsi `with` milik `view` helper:
+```
+Route::get('/', function () {
+    $daftar_buku = [
+        [
+            "judul" => "Harry Potter and the Philosopher's Stone",
+            "slug" => "harry-potter-pilosopher-stone",
+            "penulis" => "J.K. Rowling",
+            "penerbit" => "Bloomsbury",
+            "tahun_terbit" => "1997",
+            "isbn" => "0-7475-3269-9",
+        ],
+        [
+            "judul" => "Bumi Manusia",
+            "slug" => "bumi-manusia",
+            "penulis" => "Pramoedya Ananta Toer",
+            "penerbit" => "Hasta Mitra",
+            "tahun_terbit" => "1980",
+            "isbn" => "9799731232",    
+        ],
+    ];
+
+    return View::make('daftarbuku')
+                ->with('title', 'Daftar Buku')
+                ->with('books', $daftar_buku);
+});
+```
 
 - Menggunakan fungsi `compact` PHP:
 Fungsi ini membuat array yang mengandung variable dan nilai dari variable itu.
+```
+Route::get('lists/{slug}', function($slug) {
+    $daftar_buku = [
+        [
+            "judul" => "Harry Potter and the Philosopher's Stone",
+            "slug" => "harry-potter-pilosopher-stone",
+            "penulis" => "J.K. Rowling",
+            "penerbit" => "Bloomsbury",
+            "tahun_terbit" => "1997",
+            "isbn" => "0-7475-3269-9",
+        ],
+        [
+            "judul" => "Bumi Manusia",
+            "slug" => "bumi-manusia",
+            "penulis" => "Pramoedya Ananta Toer",
+            "penerbit" => "Hasta Mitra",
+            "tahun_terbit" => "1980",
+            "isbn" => "9799731232",
+        ],
+    ];
+
+    $store_book = [];
+    foreach($daftar_buku as $b){
+        if($b["slug"] === $slug){
+            $store_book = $b;
+        }
+    }
+
+    $title = "Detail Buku";
+    $book = $store_book;
+    
+    return view('book.detail', compact('title', 'book'));
+});
+```
 
 ## B. Blade Component
 
