@@ -10,6 +10,32 @@ Link Youtube :
 
 ## A. Laravel Views
 
+### Latar Belakang Topik
+Untuk mempermudah perawatan suatu aplikasi, biasanya terdapat pemisahan terhadap bagian logika bisnis dan juga bagian presentasi atau bagian yang ditampilkan ke pengguna. Pada Laravel, untuk bagian presentasi ini ditangani oleh View. Sebenarnya kita bisa saja langsung menuliskan kode HTML pada route ataupun controller, namun hal ini akan membuat perawatan aplikasi menjadi semakin sulit. View pada Laravel ini biasanya disimpan di folder `resource/views`, dan biasanya berisi kode HTML.
+
+### Konsep-konsep
+Laravel merupakan kerangka kerja berbasis MVC, dimana dalam V dalam MVC tersebut merupakan kependekan dari View. View ini adalah data yang akan ditampilkan kepada pengguna pada browser mereka dan pengguna juga dapat berinteraksi dengan View ini.
+Pada tutorial di bawah akan dijelaskan cara membuat, menampilkan, dan memberikan data ke dalam View. 
+
+### Langkah-langkah Tutorial
+
+Langkah pertama yaitu membuat view. Untuk membuat view, kita dapat langsung membuat file pada folder `resource/views`. Nama yang diberikan harus diakhiri dengan `.blade.php` untuk dapat menggunakan templating engine Laravel yaitu Blade.
+
+Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper.
+
+
+Selain menggunakan helper `view`, kita juga dapat menggunakan `View` facade
+
+
+Isi dari view yang kita tampilkan bisa saja berubah sesuai dengan data yang diinginkan. Kita dapat memberikan data ke dalam view yang dapat ditampilkan dengan bantuan templating engine Blade.
+Untuk mengirimkan data ke view, dapat digunakan beberapa cara :
+- Menggunakan Associative Array:
+
+- Menggunakan fungsi `with` milik `view` helper:
+
+- Menggunakan fungsi `compact` PHP:
+Fungsi ini membuat array yang mengandung variable dan nilai dari variable itu.
+
 ## B. Blade Component
 
 ### Latar Belakang Topik
