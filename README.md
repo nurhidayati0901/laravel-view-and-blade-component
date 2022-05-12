@@ -21,96 +21,20 @@ Pada tutorial di bawah akan dijelaskan cara membuat, menampilkan, dan memberikan
 
 Langkah pertama yaitu membuat view. Untuk membuat view, kita dapat langsung membuat file pada folder `resource/views`. Nama yang diberikan harus diakhiri dengan `.blade.php` untuk dapat menggunakan templating engine Laravel yaitu Blade.
 
-Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper atau juga dapat menggunakan `View` facade
+Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper.
+
+
+Selain menggunakan helper `view`, kita juga dapat menggunakan `View` facade
+
 
 Isi dari view yang kita tampilkan bisa saja berubah sesuai dengan data yang diinginkan. Kita dapat memberikan data ke dalam view yang dapat ditampilkan dengan bantuan templating engine Blade.
 Untuk mengirimkan data ke view, dapat digunakan beberapa cara :
 - Menggunakan Associative Array:
-```
-Route::get('/penulis', function () {
-    $authors = [
-        [
-            "name" => "Joanne Rowling",
-            "penname" => "J. K. Rowling or Robert Galbraith",
-            "born" => "Gloucestershire, 31 July 1965", 
-        ],
-        [
-            "name" => "Pramoedya Ananta Toer",
-            "penname" => "Pramoedya Ananta Toer",
-            "born" => "Blora, 6 February 1925",
-        ]
-    ];
 
-    return view('penulis', [
-        "title" => "Penulis",
-        "authors" => $authors
-    ]);
-});
-```
 - Menggunakan fungsi `with` milik `view` helper:
-```
-Route::get('/', function () {
-    $daftar_buku = [
-        [
-            "judul" => "Harry Potter and the Philosopher's Stone",
-            "slug" => "harry-potter-pilosopher-stone",
-            "penulis" => "J.K. Rowling",
-            "penerbit" => "Bloomsbury",
-            "tahun_terbit" => "1997",
-            "isbn" => "0-7475-3269-9",
-        ],
-        [
-            "judul" => "Bumi Manusia",
-            "slug" => "bumi-manusia",
-            "penulis" => "Pramoedya Ananta Toer",
-            "penerbit" => "Hasta Mitra",
-            "tahun_terbit" => "1980",
-            "isbn" => "9799731232",    
-        ],
-    ];
-
-    return View::make('daftarbuku')
-                ->with('title', 'Daftar Buku')
-                ->with('books', $daftar_buku);
-});
-```
 
 - Menggunakan fungsi `compact` PHP:
 Fungsi ini membuat array yang mengandung variable dan nilai dari variable itu.
-```
-Route::get('lists/{slug}', function($slug) {
-    $daftar_buku = [
-        [
-            "judul" => "Harry Potter and the Philosopher's Stone",
-            "slug" => "harry-potter-pilosopher-stone",
-            "penulis" => "J.K. Rowling",
-            "penerbit" => "Bloomsbury",
-            "tahun_terbit" => "1997",
-            "isbn" => "0-7475-3269-9",
-        ],
-        [
-            "judul" => "Bumi Manusia",
-            "slug" => "bumi-manusia",
-            "penulis" => "Pramoedya Ananta Toer",
-            "penerbit" => "Hasta Mitra",
-            "tahun_terbit" => "1980",
-            "isbn" => "9799731232",
-        ],
-    ];
-
-    $store_book = [];
-    foreach($daftar_buku as $b){
-        if($b["slug"] === $slug){
-            $store_book = $b;
-        }
-    }
-
-    $title = "Detail Buku";
-    $book = $store_book;
-    
-    return view('book.detail', compact('title', 'book'));
-});
-```
 
 ## B. Blade Component
 
@@ -148,9 +72,102 @@ Saat membuat tampilan web, biasanya kita melakukan pembuatan card yang berulang-
 ```
 Pada view `editor.blade.php`, akan menggunakan card untuk menampilkan masing-masing data editor. Apabila kita menerapkan contoh kode di atas, tentu akan cukup merepotkan bila kita melakukan hal yang sama terus menerus, maka untuk mengatasi masalah tersebut kita akan memanfaatkan salah satu fitur laravel yaitu menggunakan blade component.
 
+#### Creating Component
+
 Pertama, mengetikkan perintah berikut pada terminal untuk membuat component.
 ```
 php artisan make:component card
 ```
 
+Setelah berhasil menjalankan perintah tersebut, kita akan mendapatkan dua file baru pada project laravel kita yaitu pada direktori `App\View\Components\card.php`
+untuk Kelasnya dan pada direktori `resources/views/components/card.blade.php` untuk tampilannya atau blade filenya.
+
+Selanjutnya, memodifikasi code pada file `card.blade.php` pada direktori `resources/views/components/card.blade.php` menjadi sebagai berikut:
+```
+<div class="justify-content-center mt-4 card">
+    <div class="card-body">
+        {{ $slot }}
+    </div>
+</div>
+```
+Terkadang kita membutuhkan konten yang berbeda untuk ditampilkan pada component yang telah dibuat, maka untuk mengatasinya kita dapat menggunakan `$slot` variable. Melalui variable ini kita dapat menambahkan konten pada component kita melalui variable `$slot`. 
+
+Setelah selesai melakukan modifikasi file tersebut, kita dapat memanggil component tersebut pada semua view yang kita miliki.
+
+#### Passing Data ke Component
+
+Saat melakukan passing data, terkadang kita menghendaki value yang dinamis dimana content akan berubah-ubah tergantung value pada variabel tersebut. Kita perlu menambahkan route berikut pada file `web.php` agar valuenya bisa dinamis.
+```
+Route::get('/editor', function() {
+    $title = 'Editor';
+    $editors = array('Nama1', 'Nama2');
+    return view('editor', compact('title', 'editors'));
+});
+```
+
+Selanjutnya, kita perlu memodifikasi file `card.php` pada direktori `App\View\Components\card.php`. Jika kita perhatikan, pada code di file tersebut terdapat fungsi `__contruct()` yang dapat kita gunakan untuk passing data sedangkan fungsi `render()` untuk memanggil atau menampilkan file view yang telah dibuatkan laravel tadi.
+
+Berikut hasil modifikasi pada kelas `card.php` pada direktori `App\View\Components\card.php`:
+```
+<?php
+
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+
+class card extends Component
+{
+    public $title;
+    public $editors;
+
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
+    public function __construct($title, $editors)
+    {
+        //
+        $this->title = $title;
+        $this->editors = $editors;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
+     */
+    public function render()
+    {
+        return view('components.card');
+    }
+}
+```
+Untuk passing data ke component dapat kita lakukan melalui fungsi `__contruct()`. Pada contoh kali ini kita melakukan passing data dengan variabel `$title` dan `$editors` yang valuenya kita ambil dari route. Hal penting yang harus diperhatikan adalah hak akses yang kita berikan harus public agar dapat diakses oleh kelas lain.
+
+#### Rendering Component
+
+Untuk menampilkan conponent yang telah kita buat, kita cukup memanggilnya pada file view yang memerlukan component tersebut dengan menggunakan syntax `<x-componentname>`. Kita akan mencoba memanggil component card tersebut pada view `editor.blade.php`, maka kita cukup memanggil dengan `<x-card>`.
+```
+@extends('layout')
+
+@section('container')
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="h3">Daftar Editor</div>
+            <br>
+            @foreach($editors as $editor)
+                <x-card type='error' :title="$title" :editors="$editors">
+                    {{ $editor }}
+                </x-card>
+            @endforeach
+        </div>
+    </div>
+@endsection
+```
+Tidak lupa pula, untuk menampilkan data yang telah di passing dengan menggunakan syntax `:propertyname`. Pada kode tersebut, data `title` dan `editors` dapat dinamis, tergantung value pada variabel tersebut yang sebelumnya telah di-setting pada route.
+
+Berikut tampilan menu editor yang telah dibuat menggunakan blade component:
+
+![image](https://drive.google.com/uc?export=view&id=1iW6hjpX6Sy6YL-01a9jzi4bukAivy5kq)
 
