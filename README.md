@@ -21,11 +21,7 @@ Pada tutorial di bawah akan dijelaskan cara membuat, menampilkan, dan memberikan
 
 Langkah pertama yaitu membuat view. Untuk membuat view, kita dapat langsung membuat file pada folder `resource/views`. Nama yang diberikan harus diakhiri dengan `.blade.php` untuk dapat menggunakan templating engine Laravel yaitu Blade.
 
-Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper.
-
-
-Selain menggunakan helper `view`, kita juga dapat menggunakan `View` facade
-
+Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper atau juga dapat menggunakan `View` facade
 
 Isi dari view yang kita tampilkan bisa saja berubah sesuai dengan data yang diinginkan. Kita dapat memberikan data ke dalam view yang dapat ditampilkan dengan bantuan templating engine Blade.
 Untuk mengirimkan data ke view, dapat digunakan beberapa cara :
