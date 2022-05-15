@@ -1,10 +1,10 @@
 # Laravel View and Blade Component
 
 Nama Anggota:
-1. Helsa Nesta Dhaifullah
-2. Nur Hidayati (05111940000028)
+1. Helsa Nesta Dhaifullah - 5025201005
+2. Nur Hidayati - 05111940000028
 
-Link Youtube : 
+Link Youtube : [here](https://www.youtube.com/watch?v=Fkhm5jv8gYI)
 
 ---
 
@@ -14,19 +14,18 @@ Link Youtube :
 Untuk mempermudah perawatan suatu aplikasi, biasanya terdapat pemisahan terhadap bagian logika bisnis dan juga bagian presentasi atau bagian yang ditampilkan ke pengguna. Pada Laravel, untuk bagian presentasi ini ditangani oleh View. Sebenarnya kita bisa saja langsung menuliskan kode HTML pada route ataupun controller, namun hal ini akan membuat perawatan aplikasi menjadi semakin sulit. View pada Laravel ini biasanya disimpan di folder `resource/views`, dan biasanya berisi kode HTML.
 
 ### Konsep-konsep
-Laravel merupakan kerangka kerja berbasis MVC, dimana dalam V dalam MVC tersebut merupakan kependekan dari View. View ini adalah data yang akan ditampilkan kepada pengguna pada browser mereka dan pengguna juga dapat berinteraksi dengan View ini.
-Pada tutorial di bawah akan dijelaskan cara membuat, menampilkan, dan memberikan data ke dalam View. 
+Laravel merupakan kerangka kerja berbasis MVC, dimana dalam V dalam MVC tersebut merupakan kependekan dari View. View ini adalah data yang akan ditampilkan kepada pengguna pada browser mereka dan pengguna juga dapat berinteraksi dengan View ini. Pada tutorial di bawah akan dijelaskan cara membuat, menampilkan, dan memberikan data ke dalam View. 
 
 ### Langkah-langkah Tutorial
 
 Langkah pertama yaitu membuat view. Untuk membuat view, kita dapat langsung membuat file pada folder `resource/views`. Nama yang diberikan harus diakhiri dengan `.blade.php` untuk dapat menggunakan templating engine Laravel yaitu Blade.
 
-Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper atau juga dapat menggunakan `View` facade
+Setelah membuat file view, selanjutnya kita bisa mulai mengisi file tersebut dengan kode HTML dan merender view tersebut dengan menggunakan global `view` helper atau juga dapat menggunakan `View` facade.
 
 Isi dari view yang kita tampilkan bisa saja berubah sesuai dengan data yang diinginkan. Kita dapat memberikan data ke dalam view yang dapat ditampilkan dengan bantuan templating engine Blade.
 Untuk mengirimkan data ke view, dapat digunakan beberapa cara :
-- Menggunakan Associative Array:
-```
+- Menggunakan Associative Array
+```ruby
 Route::get('/penulis', function () {
     $authors = [
         [
@@ -46,9 +45,12 @@ Route::get('/penulis', function () {
     ]);
 });
 ```
+Berikut tampilannya:
 
-- Menggunakan fungsi `with` milik `view` helper:
-```
+![image](https://drive.google.com/uc?export=view&id=1L14xprIy4rZWcaPqg6ycp9QoaXEt3zLl)
+
+- Menggunakan fungsi `with` milik `view` helper
+```ruby
 Route::get('/', function () {
     $daftar_buku = [
         [
@@ -73,10 +75,14 @@ Route::get('/', function () {
                 ->with('books', $daftar_buku);
 });
 ```
+Berikut tampilannya:
 
-- Menggunakan fungsi `compact` PHP:
+![image](https://drive.google.com/uc?export=view&id=1rJsi6i2FFvbeqyOEyZyP5eaxc_7U93lz)
+
+- Menggunakan fungsi `compact` PHP
+
 Fungsi ini membuat array yang mengandung variable dan nilai dari variable itu.
-```
+```ruby
 Route::get('lists/{slug}', function($slug) {
     $daftar_buku = [
         [
@@ -108,6 +114,9 @@ Route::get('lists/{slug}', function($slug) {
     return view('book.detail', compact('title', 'book'));
 });
 ```
+Berikut tampilannya:
+
+![image](https://drive.google.com/uc?export=view&id=16SKt2Keqc58_7kGkg-fxZkhbrn7xsilY)
 
 ## B. Blade Component
 
@@ -121,7 +130,7 @@ Component di blade pada laravel bermanfaat untuk membuat satu grup tampilan yang
 
 ### Langkah-langkah Tutorial
 Saat membuat tampilan web, biasanya kita melakukan pembuatan card yang berulang-ulang pada sebuah view blade, misalnya kita akan membuat menu daftar editor pada sebuah web penyedia buku bacaan. 
-```
+```ruby
 @extends('layout')
 
 @section('container')
@@ -148,7 +157,7 @@ Pada view `editor.blade.php`, akan menggunakan card untuk menampilkan masing-mas
 #### Creating Component
 
 Pertama, mengetikkan perintah berikut pada terminal untuk membuat component.
-```
+```ruby
 php artisan make:component card
 ```
 
@@ -156,7 +165,7 @@ Setelah berhasil menjalankan perintah tersebut, kita akan mendapatkan dua file b
 untuk Kelasnya dan pada direktori `resources/views/components/card.blade.php` untuk tampilannya atau blade filenya.
 
 Selanjutnya, memodifikasi code pada file `card.blade.php` pada direktori `resources/views/components/card.blade.php` menjadi sebagai berikut:
-```
+```ruby
 <div class="justify-content-center mt-4 card">
     <div class="card-body">
         {{ $slot }}
@@ -170,7 +179,7 @@ Setelah selesai melakukan modifikasi file tersebut, kita dapat memanggil compone
 #### Passing Data ke Component
 
 Saat melakukan passing data, terkadang kita menghendaki value yang dinamis dimana content akan berubah-ubah tergantung value pada variabel tersebut. Kita perlu menambahkan route berikut pada file `web.php` agar valuenya bisa dinamis.
-```
+```ruby
 Route::get('/editor', function() {
     $title = 'Editor';
     $editors = array('Nama1', 'Nama2');
@@ -181,7 +190,7 @@ Route::get('/editor', function() {
 Selanjutnya, kita perlu memodifikasi file `card.php` pada direktori `App\View\Components\card.php`. Jika kita perhatikan, pada code di file tersebut terdapat fungsi `__contruct()` yang dapat kita gunakan untuk passing data sedangkan fungsi `render()` untuk memanggil atau menampilkan file view yang telah dibuatkan laravel tadi.
 
 Berikut hasil modifikasi pada kelas `card.php` pada direktori `App\View\Components\card.php`:
-```
+```ruby
 <?php
 
 namespace App\View\Components;
@@ -221,7 +230,7 @@ Untuk passing data ke component dapat kita lakukan melalui fungsi `__contruct()`
 #### Rendering Component
 
 Untuk menampilkan conponent yang telah kita buat, kita cukup memanggilnya pada file view yang memerlukan component tersebut dengan menggunakan syntax `<x-componentname>`. Kita akan mencoba memanggil component card tersebut pada view `editor.blade.php`, maka kita cukup memanggil dengan `<x-card>`.
-```
+```ruby
 @extends('layout')
 
 @section('container')
@@ -242,5 +251,5 @@ Tidak lupa pula, untuk menampilkan data yang telah di passing dengan menggunakan
 
 Berikut tampilan menu editor yang telah dibuat menggunakan blade component:
 
-![image](https://drive.google.com/uc?export=view&id=1iW6hjpX6Sy6YL-01a9jzi4bukAivy5kq)
+![image](https://drive.google.com/uc?export=view&id=1PdOfC2-j2VoH_oiSt17_ZOI7ss3EwG9E)
 
